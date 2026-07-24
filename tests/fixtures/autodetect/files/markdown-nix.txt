@@ -1,0 +1,9 @@
+## Development shell
+
+The shell contains compiler and source-control tools.
+
+Use it for local builds.
+
+```nix
+pkgs.mkShell { packages = with pkgs; [ zig git ]; }
+```

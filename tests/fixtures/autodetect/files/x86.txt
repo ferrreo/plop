@@ -1,0 +1,5 @@
+section .text
+global clear_flag
+clear_flag:
+    xor eax, eax
+    ret

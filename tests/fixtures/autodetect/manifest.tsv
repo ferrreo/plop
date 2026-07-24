@@ -1,0 +1,204 @@
+grammar	expected	fixture	provenance	license
+bash	bash	files/bash.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Shell/filenames/gradlew	MIT
+c	c	files/c.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/C/common.h.in	MIT
+cpp	cpp	files/cpp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/C++/crypter.cpp	MIT
+csharp	csharp	files/csharp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/C#/SimpleHttpServer.cs	MIT
+css	css	files/css.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CSS/bootstrap.min.css	MIT
+go	go	files/go.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Go/oapi-codegen.go	MIT
+html	html	files/html.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/HTML/Crear_logo.hta	MIT
+java	java	files/java.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Java/generated-jooq-table.java	MIT
+javascript	javascript	files/javascript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/JavaScript/http.js	MIT
+jsx	jsx	files/jsx.txt	plop project-authored	BSD-3-Clause
+json	json	files/json.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/JSON/filenames/Pipfile.lock	MIT
+kotlin	kotlin	files/kotlin.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Kotlin/Foo.kt	MIT
+markdown	markdown	files/markdown.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Markdown/csharp6.workbook	MIT
+php	php	files/php.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PHP/file_display.inc	MIT
+python	python	files/python.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Python/flask-view.py	MIT
+ruby	ruby	files/ruby.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Ruby/jekyll.rb	MIT
+rust	rust	files/rust.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Rust/base64url	MIT
+sql	sql	files/sql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/SQL/create_stuff.sql	MIT
+swift	swift	files/swift.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Swift/section-59.swift	MIT
+toml	toml	files/toml.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/TOML/filenames/uv.lock	MIT
+tsx	tsx	files/tsx.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/TSX/require.tsx	MIT
+typescript	typescript	files/typescript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/TypeScript/cache.ts	MIT
+xml	xml	files/xml.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/XML/NDepends_Example.ndproj	MIT
+yaml	yaml	files/yaml.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/YAML/database.yml.mysql	MIT
+zig	zig	files/zig.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Zig/cat.zig	MIT
+1c-query	1c-query	files/1c-query.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/1C Enterprise/Catalog.Товары.Command.ПечатьПрайсЛиста.CommandModule.bsl	MIT
+actionscript-3	actionscript-3	files/actionscript-3.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ActionScript/TextFieldUtil.as	MIT
+ada	ada	files/ada.txt	plop project-authored	BSD-3-Clause
+angular-expression	angular-expression	files/angular-expression.txt	plop project-authored	BSD-3-Clause
+angular-let-declaration	angular-let-declaration	files/angular-let-declaration.txt	plop project-authored	BSD-3-Clause
+angular-template	angular-template	files/angular-template.txt	plop project-authored	BSD-3-Clause
+apache	apache	files/apache.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ApacheConf/filenames/.htaccess	MIT
+apex	apex	files/apex.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Apex/EmailUtils.cls	MIT
+applescript	applescript	files/applescript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/AppleScript/Crazy Message Text.applescript	MIT
+ara	ara	files/ara.txt	plop project-authored	BSD-3-Clause
+arm	arm	files/arm.txt	plop project-authored	BSD-3-Clause
+asm	asm	files/asm.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Assembly/fp_sqr32_160_comba.inc	MIT
+asm-x86_64	x86_64	files/asm-x86_64.txt	plop project-authored	BSD-3-Clause
+bat	batch	files/bat.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Batchfile/filenames/gradlew.bat	MIT
+batch	batch	files/batch.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Batchfile/filenames/gradlew.bat	MIT
+be	berry	files/be.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Berry/berry_schema_validator.be	MIT
+beancount	beancount	files/beancount.txt	plop project-authored	BSD-3-Clause
+berry	berry	files/berry.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Berry/berry_schema_validator.be	MIT
+bibtex	bibtex	files/bibtex.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/BibTeX/citations.bib	MIT
+bicep	bicep	files/bicep.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Bicep/201-1vm-2nics-2subnets-1vnet.bicep	MIT
+bird	bird	files/bird.txt	plop project-authored	BSD-3-Clause
+bird2	bird2	files/bird2.txt	plop project-authored	BSD-3-Clause
+c3	c3	files/c3.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/C3/example.c3	MIT
+cadence	cadence	files/cadence.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Cadence/FlowFees.cdc	MIT
+cairo	cairo	files/cairo.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Cairo/pizza_factory.cairo	MIT
+cdc	cadence	files/cdc.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Cadence/FlowFees.cdc	MIT
+clarity	clarity	files/clarity.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Clarity/cost-voting.clar	MIT
+clj	clojure	files/clj.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Clojure/index.cljs.hl	MIT
+clojure	clojure	files/clojure.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Clojure/index.cljs.hl	MIT
+cmake	cmake	files/cmake.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CMake/sample5.cmake	MIT
+cmd	batch	files/cmd.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Batchfile/filenames/gradlew.bat	MIT
+codeowners	codeowners	files/codeowners.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CODEOWNERS/filenames/CODEOWNERS	MIT
+codeql	codeql	files/codeql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CodeQL/qll-sample2.qll	MIT
+coffeescript	coffeescript	files/coffeescript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CoffeeScript/coffee-script.coffee	MIT
+common-lisp	common-lisp	files/common-lisp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Common Lisp/array.l	MIT
+coq	coq	files/coq.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Rocq Prover/JsNumber.v	MIT
+cql	cql	files/cql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CQL/videodb.cql	MIT
+csv	csv	files/csv.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CSV/cars.csv	MIT
+cue	cue	files/cue.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CUE/kube.cue	MIT
+cypher	cypher	files/cypher.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Cypher/graphgems.cyp	MIT
+d	d	files/d.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/D/arrayops.d	MIT
+dart	dart	files/dart.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Dart/equals.freezed.dart	MIT
+dax	dax	files/dax.txt	plop project-authored	BSD-3-Clause
+desktop	desktop	files/desktop.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/desktop/example.desktop	MIT
+diff	diff	files/diff.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Diff/dude-thing-okay--001.patch	MIT
+docker	dockerfile	files/docker.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Dockerfile/filenames/Dockerfile	MIT
+dockerfile	dockerfile	files/dockerfile.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Dockerfile/filenames/Dockerfile	MIT
+dotenv	dotenv	files/dotenv.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Dotenv/filenames/.env.testing	MIT
+dream-maker	dream-maker	files/dream-maker.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/DM/example.dm	MIT
+elm	elm	files/elm.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Elm/Basic.elm	MIT
+es-tag-xml	es-tag-xml	files/es-tag-xml.txt	plop project-authored	BSD-3-Clause
+fennel	fennel	files/fennel.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Fennel/repl.fnl	MIT
+fish	fish	files/fish.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/fish/funced.fish	MIT
+fluent	fluent	files/fluent.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Fluent/call_expressions.ftl	MIT
+fortran-fixed-form	fortran-fixed-form	files/fortran-fixed-form.txt	plop project-authored	BSD-3-Clause
+fortran-free-form	fortran-free-form	files/fortran-free-form.txt	plop project-authored	BSD-3-Clause
+fsl	fsl	files/fsl.txt	plop project-authored	BSD-3-Clause
+ftl	ftl	files/ftl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/FreeMarker/blocks-card.ftlh	MIT
+gd	gdscript	files/gd.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/GDScript/grid.gd	MIT
+gdresource	gdresource	files/gdresource.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Godot Resource/default.tres	MIT
+gdscript	gdscript	files/gdscript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/GDScript/grid.gd	MIT
+gdshader	gdshader	files/gdshader.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/GDShader/stylized_grass.gdshader	MIT
+gherkin	gherkin	files/gherkin.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Gherkin/resources.story	MIT
+git-commit	git-commit	files/git-commit.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Git Commit/filenames/COMMIT_EDITMSG	MIT
+git-rebase	git-rebase	files/git-rebase.txt	plop project-authored	BSD-3-Clause
+gleam	gleam	files/gleam.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Gleam/contributor.gleam	MIT
+glsl	glsl	files/glsl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/GLSL/pntriangles.tese	MIT
+gn	gn	files/gn.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/GN/isolate.gni	MIT
+gnuplot	gnuplot	files/gnuplot.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Gnuplot/surface1.16.gnu	MIT
+haxe	haxe	files/haxe.txt	plop project-authored	BSD-3-Clause
+hcl	hcl	files/hcl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/HCL/example.nomad	MIT
+hjson	hjson	files/hjson.txt	plop project-authored	BSD-3-Clause
+hlsl	hlsl	files/hlsl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/HLSL/bloom.cginc	MIT
+hxml	hxml	files/hxml.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/HXML/vshaxe.hxml	MIT
+hy	hy	files/hy.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Hy/fizzbuzz	MIT
+ignore	ignore	files/ignore.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Ignore List/filenames/.eslint-ignore	MIT
+imba	imba	files/imba.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Imba/main.imba	MIT
+ini	ini	files/ini.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/INI/my.cnf	MIT
+jinja	jinja	files/jinja.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Jinja/home.j2	MIT
+js-regexp	regexp	files/js-regexp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Regular Expression/modeline-vim.regexp	MIT
+json5	json5	files/json5.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/JSON5/package.json5	MIT
+jsonnet	jsonnet	files/jsonnet.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Jsonnet/intersection.jsonnet	MIT
+jssm	jssm	files/jssm.txt	plop project-authored	BSD-3-Clause
+kdl	kdl	files/kdl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/KDL/nuget.kdl	MIT
+kql	kusto	files/kql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Kusto/kusto-example-queries.csl	MIT
+kts	kts	files/kts.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Gradle Kotlin DSL/build.gradle.kts	MIT
+kusto	kusto	files/kusto.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Kusto/kusto-example-queries.csl	MIT
+lisp	common-lisp	files/lisp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Common Lisp/array.l	MIT
+llvm	llvm	files/llvm.txt	plop project-authored	BSD-3-Clause
+log	log	files/log.txt	plop project-authored	BSD-3-Clause
+logo	logo	files/logo.txt	plop project-authored	BSD-3-Clause
+lua	lua	files/lua.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Lua/vidya-file-modder.pd_lua	MIT
+luau	luau	files/luau.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Luau/Tree.luau	MIT
+make	makefile	files/make.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Makefile/filenames/Makefile.boot	MIT
+makefile	makefile	files/makefile.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Makefile/filenames/Makefile.boot	MIT
+markdown-nix	markdown-nix	files/markdown-nix.txt	plop project-authored	BSD-3-Clause
+matlab	matlab	files/matlab.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/MATLAB/FTLEH.m	MIT
+mbt	moonbit	files/mbt.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/MoonBit/rbtree.mbt	MIT
+mbti	moonbit	files/mbti.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/MoonBit/rbtree.mbt	MIT
+mermaid	mermaid	files/mermaid.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Mermaid/c4c-diagram.mermaid	MIT
+mips	mips	files/mips.txt	plop project-authored	BSD-3-Clause
+mipsasm	mips	files/mipsasm.txt	plop project-authored	BSD-3-Clause
+mmd	mermaid	files/mmd.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Mermaid/c4c-diagram.mermaid	MIT
+mojo	mojo	files/mojo.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Mojo/Matmul.mojo	MIT
+moonbit	moonbit	files/moonbit.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/MoonBit/rbtree.mbt	MIT
+move	move	files/move.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Move/Main.move	MIT
+nar	nar	files/nar.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Nasal/kx165tso.nas	MIT
+narrat	narrat	files/narrat.txt	plop project-authored	BSD-3-Clause
+nix	nix	files/nix.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Nix/nginx.nix	MIT
+nu	nushell	files/nu.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Nushell/this_week_in_nu.nu	MIT
+nushell	nushell	files/nushell.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Nushell/this_week_in_nu.nu	MIT
+ocaml	ocaml	files/ocaml.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/OCaml/reload.ml	MIT
+odin	odin	files/odin.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Odin/sample.odin	MIT
+openscad	openscad	files/openscad.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/OpenSCAD/not_simple.scad	MIT
+pascal	pascal	files/pascal.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Pascal/custforms.pp	MIT
+perl6	raku	files/perl6.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Raku/Model.pm	MIT
+pkl	pkl	files/pkl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Pkl/SchemaGenerator.pkl	MIT
+plsql	plsql	files/plsql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PLSQL/plsqlguide.pck	MIT
+po	po	files/po.txt	plop project-authored	BSD-3-Clause
+polar	polar	files/polar.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Polar/gitcloud.polar	MIT
+postcss	postcss	files/postcss.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PostCSS/sample.postcss	MIT
+pot	po	files/pot.txt	plop project-authored	BSD-3-Clause
+potx	potx	files/potx.txt	plop project-authored	BSD-3-Clause
+powerquery	powerquery	files/powerquery.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Power Query/fnMxToolboxLookup.pq	MIT
+powershell	powershell	files/powershell.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PowerShell/ZLocation.psd1	MIT
+prisma	prisma	files/prisma.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Prisma/now-example-schema.prisma	MIT
+prolog	prolog	files/prolog.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Prolog/func.pl	MIT
+properties	properties	files/properties.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Java Properties/libraries.properties	MIT
+proto	protobuf	files/proto.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Protocol Buffer/addressbook.proto	MIT
+protobuf	protobuf	files/protobuf.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Protocol Buffer/addressbook.proto	MIT
+ps	powershell	files/ps.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PowerShell/ZLocation.psd1	MIT
+ps1	powershell	files/ps1.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PowerShell/ZLocation.psd1	MIT
+puppet	puppet	files/puppet.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Puppet/expiringhost.pp	MIT
+purescript	purescript	files/purescript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PureScript/Data.Foreign.purs	MIT
+ql	codeql	files/ql.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/CodeQL/qll-sample2.qll	MIT
+qmldir	qmldir	files/qmldir.txt	plop project-authored	BSD-3-Clause
+qss	qss	files/qss.txt	plop project-authored	BSD-3-Clause
+r	r	files/r.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/R/filenames/expr-dist	MIT
+raku	raku	files/raku.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Raku/Model.pm	MIT
+reg	reg	files/reg.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Windows Registry Entries/sample.reg	MIT
+regexp	regexp	files/regexp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Regular Expression/modeline-vim.regexp	MIT
+rel	rel	files/rel.txt	plop project-authored	BSD-3-Clause
+riscv	riscv	files/riscv.txt	plop project-authored	BSD-3-Clause
+ron	ron	files/ron.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/RON/config.ron	MIT
+rosmsg	rosmsg	files/rosmsg.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ROS Interface/Marker.msg	MIT
+sass	sass	files/sass.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Sass/screen.sass	MIT
+sassdoc	sassdoc	files/sassdoc.txt	plop project-authored	BSD-3-Clause
+scheme	scheme	files/scheme.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Scheme/common.scm	MIT
+shaderlab	shaderlab	files/shaderlab.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ShaderLab/Fog.shader	MIT
+shellsession	shellsession	files/shellsession.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ShellSession/gem-install.sh-session	MIT
+smalltalk	smalltalk	files/smalltalk.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Smalltalk/Dinner.st	MIT
+solidity	solidity	files/solidity.txt	plop project-authored	BSD-3-Clause
+splunk	splunk	files/splunk.txt	plop project-authored	BSD-3-Clause
+ssh-config	ssh-config	files/ssh-config.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/SSH Config/filenames/ssh_config	MIT
+system-verilog	system-verilog	files/system-verilog.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/SystemVerilog/endpoint_phy_wrapper.svh	MIT
+systemd	systemd	files/systemd.txt	plop project-authored	BSD-3-Clause
+talonscript	talonscript	files/talonscript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Talon/find_and_replace.talon	MIT
+tasl	tasl	files/tasl.txt	plop project-authored	BSD-3-Clause
+tcl	tcl	files/tcl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Tcl/stream-0.1.tm	MIT
+terraform	terraform	files/terraform.txt	plop project-authored	BSD-3-Clause
+tsv	tsv	files/tsv.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/TSV/z.vcf	MIT
+typespec	typespec	files/typespec.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/TypeSpec/petstore.tsp	MIT
+typst	typst	files/typst.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Typst/fiction.typ	MIT
+v	v	files/v.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/V/nbody.v	MIT
+vb	vb	files/vb.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Visual Basic .NET/Index.vbhtml	MIT
+verilog	verilog	files/verilog.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Verilog/encrypted_module.v	MIT
+vhdl	vhdl	files/vhdl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/VHDL/foo.vhd	MIT
+vyper	vyper	files/vyper.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Vyper/ERC20.vy	MIT
+wasm	wasm	files/wasm.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/WebAssembly/local-cse.wast	MIT
+wenyan	wenyan	files/wenyan.txt	plop project-authored	BSD-3-Clause
+wgsl	wgsl	files/wgsl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/WGSL/animate_shader.wgsl	MIT
+wit	wit	files/wit.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/WebAssembly Interface Type/wasi-io.wit	MIT
+wolfram	wolfram	files/wolfram.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Wolfram Language/Predicates.m	MIT
+x86	x86	files/x86.txt	plop project-authored	BSD-3-Clause
+x86_64	x86_64	files/x86_64.txt	plop project-authored	BSD-3-Clause
+xsl	xsl	files/xsl.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/XSLT/test.xslt	MIT
+zenscript	zenscript	files/zenscript.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/ZenScript/sample.zs	MIT
+zsh	zsh	files/zsh.txt	plop project-authored	BSD-3-Clause

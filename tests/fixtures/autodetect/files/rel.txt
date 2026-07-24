@@ -1,0 +1,1 @@
+def visible_pastes = relation { paste | not paste.deleted and paste.expires_at > @now() };

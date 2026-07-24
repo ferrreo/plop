@@ -1,0 +1,608 @@
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var util = require('util');
+var net = require('net');
+var stream = require('stream');
+var url = require('url');
+var EventEmitter = require('events').EventEmitter;
+var FreeList = require('freelist').FreeList;
+var HTTPParser = process.binding('http_parser').HTTPParser;
+var assert = require('assert').ok;
+var END_OF_FILE = {};
+
+
+var debug;
+if (process.env.NODE_DEBUG && /http/.test(process.env.NODE_DEBUG)) {
+  debug = function(x) { console.error('HTTP: %s', x); };
+} else {
+  debug = function() { };
+}
+
+// Only called in the slow case where slow means
+// that the request headers were either fragmented
+// across multiple TCP packets or too large to be
+// processed in a single run. This method is also
+// called to process trailing HTTP headers.
+function parserOnHeaders(headers, url) {
+  // Once we exceeded headers limit - stop collecting them
+  if (this.maxHeaderPairs <= 0 ||
+      this._headers.length < this.maxHeaderPairs) {
+    this._headers = this._headers.concat(headers);
+  }
+  this._url += url;
+}
+
+// info.headers and info.url are set only if .onHeaders()
+// has not been called for this request.
+//
+// info.url is not set for response parsers but that's not
+// applicable here since all our parsers are request parsers.
+function parserOnHeadersComplete(info) {
+  var parser = this;
+  var headers = info.headers;
+  var url = info.url;
+
+  if (!headers) {
+    headers = parser._headers;
+    parser._headers = [];
+  }
+
+  if (!url) {
+    url = parser._url;
+    parser._url = '';
+  }
+
+  parser.incoming = new IncomingMessage(parser.socket);
+  parser.incoming.httpVersionMajor = info.versionMajor;
+  parser.incoming.httpVersionMinor = info.versionMinor;
+  parser.incoming.httpVersion = info.versionMajor + '.' + info.versionMinor;
+  parser.incoming.url = url;
+
+  var n = headers.length;
+
+  // If parser.maxHeaderPairs <= 0 - assume that there're no limit
+  if (parser.maxHeaderPairs > 0) {
+    n = Math.min(n, parser.maxHeaderPairs);
+  }
+
+  for (var i = 0; i < n; i += 2) {
+    var k = headers[i];
+    var v = headers[i + 1];
+    parser.incoming._addHeaderLine(k, v);
+  }
+
+
+  if (info.method) {
+    // server only
+    parser.incoming.method = info.method;
+  } else {
+    // client only
+    parser.incoming.statusCode = info.statusCode;
+    // CHECKME dead code? we're always a request parser
+  }
+
+  parser.incoming.upgrade = info.upgrade;
+
+  var skipBody = false; // response to HEAD or CONNECT
+
+  if (!info.upgrade) {
+    // For upgraded connections and CONNECT method request,
+    // we'll emit this after parser.execute
+    // so that we can capture the first part of the new protocol
+    skipBody = parser.onIncoming(parser.incoming, info.shouldKeepAlive);
+  }
+
+  return skipBody;
+}
+
+function parserOnBody(b, start, len) {
+  var parser = this;
+  var slice = b.slice(start, start + len);
+  if (parser.incoming._paused || parser.incoming._pendings.length) {
+    parser.incoming._pendings.push(slice);
+  } else {
+    parser.incoming._emitData(slice);
+  }
+}
+
+function parserOnMessageComplete() {
+  var parser = this;
+  parser.incoming.complete = true;
+
+  // Emit any trailing headers.
+  var headers = parser._headers;
+  if (headers) {
+    for (var i = 0, n = headers.length; i < n; i += 2) {
+      var k = headers[i];
+      var v = headers[i + 1];
+      parser.incoming._addHeaderLine(k, v);
+    }
+    parser._headers = [];
+    parser._url = '';
+  }
+
+  if (!parser.incoming.upgrade) {
+    // For upgraded connections, also emit this after parser.execute
+    if (parser.incoming._paused || parser.incoming._pendings.length) {
+      parser.incoming._pendings.push(END_OF_FILE);
+    } else {
+      parser.incoming.readable = false;
+      parser.incoming._emitEnd();
+    }
+  }
+
+  if (parser.socket.readable) {
+    // force to read the next incoming message
+    parser.socket.resume();
+  }
+}
+
+
+var parsers = new FreeList('parsers', 1000, function() {
+  var parser = new HTTPParser(HTTPParser.REQUEST);
+
+  parser._headers = [];
+  parser._url = '';
+
+  // Only called in the slow case where slow means
+  // that the request headers were either fragmented
+  // across multiple TCP packets or too large to be
+  // processed in a single run. This method is also
+  // called to process trailing HTTP headers.
+  parser.onHeaders = parserOnHeaders;
+  parser.onHeadersComplete = parserOnHeadersComplete;
+  parser.onBody = parserOnBody;
+  parser.onMessageComplete = parserOnMessageComplete;
+
+  return parser;
+});
+exports.parsers = parsers;
+
+
+var CRLF = '\r\n';
+var STATUS_CODES = exports.STATUS_CODES = {
+  100 : 'Continue',
+  101 : 'Switching Protocols',
+  102 : 'Processing',                 // RFC 2518, obsoleted by RFC 4918
+  200 : 'OK',
+  201 : 'Created',
+  202 : 'Accepted',
+  203 : 'Non-Authoritative Information',
+  204 : 'No Content',
+  205 : 'Reset Content',
+  206 : 'Partial Content',
+  207 : 'Multi-Status',               // RFC 4918
+  300 : 'Multiple Choices',
+  301 : 'Moved Permanently',
+  302 : 'Moved Temporarily',
+  303 : 'See Other',
+  304 : 'Not Modified',
+  305 : 'Use Proxy',
+  307 : 'Temporary Redirect',
+  400 : 'Bad Request',
+  401 : 'Unauthorized',
+  402 : 'Payment Required',
+  403 : 'Forbidden',
+  404 : 'Not Found',
+  405 : 'Method Not Allowed',
+  406 : 'Not Acceptable',
+  407 : 'Proxy Authentication Required',
+  408 : 'Request Time-out',
+  409 : 'Conflict',
+  410 : 'Gone',
+  411 : 'Length Required',
+  412 : 'Precondition Failed',
+  413 : 'Request Entity Too Large',
+  414 : 'Request-URI Too Large',
+  415 : 'Unsupported Media Type',
+  416 : 'Requested Range Not Satisfiable',
+  417 : 'Expectation Failed',
+  418 : 'I\'m a teapot',              // RFC 2324
+  422 : 'Unprocessable Entity',       // RFC 4918
+  423 : 'Locked',                     // RFC 4918
+  424 : 'Failed Dependency',          // RFC 4918
+  425 : 'Unordered Collection',       // RFC 4918
+  426 : 'Upgrade Required',           // RFC 2817
+  428 : 'Precondition Required',      // RFC 6585
+  429 : 'Too Many Requests',          // RFC 6585
+  431 : 'Request Header Fields Too Large',// RFC 6585
+  500 : 'Internal Server Error',
+  501 : 'Not Implemented',
+  502 : 'Bad Gateway',
+  503 : 'Service Unavailable',
+  504 : 'Gateway Time-out',
+  505 : 'HTTP Version not supported',
+  506 : 'Variant Also Negotiates',    // RFC 2295
+  507 : 'Insufficient Storage',       // RFC 4918
+  509 : 'Bandwidth Limit Exceeded',
+  510 : 'Not Extended',               // RFC 2774
+  511 : 'Network Authentication Required' // RFC 6585
+};
+
+
+var connectionExpression = /Connection/i;
+var transferEncodingExpression = /Transfer-Encoding/i;
+var closeExpression = /close/i;
+var chunkExpression = /chunk/i;
+var contentLengthExpression = /Content-Length/i;
+var dateExpression = /Date/i;
+var expectExpression = /Expect/i;
+var continueExpression = /100-continue/i;
+
+var dateCache;
+function utcDate() {
+  if (!dateCache) {
+    var d = new Date();
+    dateCache = d.toUTCString();
+    setTimeout(function() {
+      dateCache = undefined;
+    }, 1000 - d.getMilliseconds());
+  }
+  return dateCache;
+}
+
+
+/* Abstract base class for ServerRequest and ClientResponse. */
+function IncomingMessage(socket) {
+  stream.Stream.call(this);
+
+  // TODO Remove one of these eventually.
+  this.socket = socket;
+  this.connection = socket;
+
+  this.httpVersion = null;
+  this.complete = false;
+  this.headers = {};
+  this.trailers = {};
+
+  this.readable = true;
+
+  this._paused = false;
+  this._pendings = [];
+
+  this._endEmitted = false;
+
+  // request (server) only
+  this.url = '';
+
+  this.method = null;
+
+  // response (client) only
+  this.statusCode = null;
+  this.client = this.socket;
+}
+util.inherits(IncomingMessage, stream.Stream);
+
+
+exports.IncomingMessage = IncomingMessage;
+
+
+IncomingMessage.prototype.destroy = function(error) {
+  this.socket.destroy(error);
+};
+
+
+IncomingMessage.prototype.setEncoding = function(encoding) {
+  var StringDecoder = require('string_decoder').StringDecoder; // lazy load
+  this._decoder = new StringDecoder(encoding);
+};
+
+
+IncomingMessage.prototype.pause = function() {
+  this._paused = true;
+  this.socket.pause();
+};
+
+
+IncomingMessage.prototype.resume = function() {
+  this._paused = false;
+  if (this.socket) {
+    this.socket.resume();
+  }
+
+  this._emitPending();
+};
+
+
+IncomingMessage.prototype._emitPending = function(callback) {
+  if (this._pendings.length) {
+    var self = this;
+    process.nextTick(function() {
+      while (!self._paused && self._pendings.length) {
+        var chunk = self._pendings.shift();
+        if (chunk !== END_OF_FILE) {
+          assert(Buffer.isBuffer(chunk));
+          self._emitData(chunk);
+        } else {
+          assert(self._pendings.length === 0);
+          self.readable = false;
+          self._emitEnd();
+        }
+      }
+
+      if (callback) {
+        callback();
+      }
+    });
+  } else if (callback) {
+    callback();
+  }
+};
+
+
+IncomingMessage.prototype._emitData = function(d) {
+  if (this._decoder) {
+    var string = this._decoder.write(d);
+    if (string.length) {
+      this.emit('data', string);
+    }
+  } else {
+    this.emit('data', d);
+  }
+};
+
+
+IncomingMessage.prototype._emitEnd = function() {
+  if (!this._endEmitted) {
+    this.emit('end');
+  }
+
+  this._endEmitted = true;
+};
+
+
+// Add the given (field, value) pair to the message
+//
+// Per RFC2616, section 4.2 it is acceptable to join multiple instances of the
+// same header with a ', ' if the header in question supports specification of
+// multiple values this way. If not, we declare the first instance the winner
+// and drop the second. Extended header fields (those beginning with 'x-') are
+// always joined.
+IncomingMessage.prototype._addHeaderLine = function(field, value) {
+  var dest = this.complete ? this.trailers : this.headers;
+
+  field = field.toLowerCase();
+  switch (field) {
+    // Array headers:
+    case 'set-cookie':
+      if (field in dest) {
+        dest[field].push(value);
+      } else {
+        dest[field] = [value];
+      }
+      break;
+
+    // Comma separate. Maybe make these arrays?
+    case 'accept':
+    case 'accept-charset':
+    case 'accept-encoding':
+    case 'accept-language':
+    case 'connection':
+    case 'cookie':
+    case 'pragma':
+    case 'link':
+    case 'www-authenticate':
+    case 'sec-websocket-extensions':
+    case 'sec-websocket-protocol':
+      if (field in dest) {
+        dest[field] += ', ' + value;
+      } else {
+        dest[field] = value;
+      }
+      break;
+
+
+    default:
+      if (field.slice(0, 2) == 'x-') {
+        // except for x-
+        if (field in dest) {
+          dest[field] += ', ' + value;
+        } else {
+          dest[field] = value;
+        }
+      } else {
+        // drop duplicates
+        if (!(field in dest)) dest[field] = value;
+      }
+      break;
+  }
+};
+
+
+function OutgoingMessage() {
+  stream.Stream.call(this);
+
+  this.output = [];
+  this.outputEncodings = [];
+
+  this.writable = true;
+
+  this._last = false;
+  this.chunkedEncoding = false;
+  this.shouldKeepAlive = true;
+  this.useChunkedEncodingByDefault = true;
+  this.sendDate = false;
+
+  this._hasBody = true;
+  this._trailer = '';
+
+  this.finished = false;
+}
+util.inherits(OutgoingMessage, stream.Stream);
+
+
+exports.OutgoingMessage = OutgoingMessage;
+
+
+OutgoingMessage.prototype.destroy = function(error) {
+  this.socket.destroy(error);
+};
+
+
+// This abstract either writing directly to the socket or buffering it.
+OutgoingMessage.prototype._send = function(data, encoding) {
+  // This is a shameful hack to get the headers and first body chunk onto
+  // the same packet. Future versions of Node are going to take care of
+  // this at a lower level and in a more general way.
+  if (!this._headerSent) {
+    if (typeof data === 'string') {
+      data = this._header + data;
+    } else {
+      this.output.unshift(this._header);
+      this.outputEncodings.unshift('ascii');
+    }
+    this._headerSent = true;
+  }
+  return this._writeRaw(data, encoding);
+};
+
+
+OutgoingMessage.prototype._writeRaw = function(data, encoding) {
+  if (data.length === 0) {
+    return true;
+  }
+
+  if (this.connection &&
+      this.connection._httpMessage === this &&
+      this.connection.writable) {
+    // There might be pending data in the this.output buffer.
+    while (this.output.length) {
+      if (!this.connection.writable) {
+        this._buffer(data, encoding);
+        return false;
+      }
+      var c = this.output.shift();
+      var e = this.outputEncodings.shift();
+      this.connection.write(c, e);
+    }
+
+    // Directly write to socket.
+    return this.connection.write(data, encoding);
+  } else {
+    this._buffer(data, encoding);
+    return false;
+  }
+};
+
+
+OutgoingMessage.prototype._buffer = function(data, encoding) {
+  if (data.length === 0) return;
+
+  var length = this.output.length;
+
+  if (length === 0 || typeof data != 'string') {
+    this.output.push(data);
+    this.outputEncodings.push(encoding);
+    return false;
+  }
+
+  var lastEncoding = this.outputEncodings[length - 1];
+  var lastData = this.output[length - 1];
+
+  if ((encoding && lastEncoding === encoding) ||
+      (!encoding && data.constructor === lastData.constructor)) {
+    this.output[length - 1] = lastData + data;
+    return false;
+  }
+
+  this.output.push(data);
+  this.outputEncodings.push(encoding);
+
+  return false;
+};
+
+
+OutgoingMessage.prototype._storeHeader = function(firstLine, headers) {
+  var sentConnectionHeader = false;
+  var sentContentLengthHeader = false;
+  var sentTransferEncodingHeader = false;
+  var sentDateHeader = false;
+  var sentExpect = false;
+
+  // firstLine in the case of request is: 'GET /index.html HTTP/1.1\r\n'
+  // in the case of response it is: 'HTTP/1.1 200 OK\r\n'
+  var messageHeader = firstLine;
+  var field, value;
+  var self = this;
+
+  function store(field, value) {
+    messageHeader += field + ': ' + value + CRLF;
+
+    if (connectionExpression.test(field)) {
+      sentConnectionHeader = true;
+      if (closeExpression.test(value)) {
+        self._last = true;
+      } else {
+        self.shouldKeepAlive = true;
+      }
+
+    } else if (transferEncodingExpression.test(field)) {
+      sentTransferEncodingHeader = true;
+      if (chunkExpression.test(value)) self.chunkedEncoding = true;
+
+    } else if (contentLengthExpression.test(field)) {
+      sentContentLengthHeader = true;
+    } else if (dateExpression.test(field)) {
+      sentDateHeader = true;
+    } else if (expectExpression.test(field)) {
+      sentExpect = true;
+    }
+  }
+
+  if (headers) {
+    var keys = Object.keys(headers);
+    var isArray = (Array.isArray(headers));
+    var field, value;
+
+    for (var i = 0, l = keys.length; i < l; i++) {
+      var key = keys[i];
+      if (isArray) {
+        field = headers[key][0];
+        value = headers[key][1];
+      } else {
+        field = key;
+        value = headers[key];
+      }
+
+      if (Array.isArray(value)) {
+        for (var j = 0; j < value.length; j++) {
+          store(field, value[j]);
+        }
+      } else {
+        store(field, value);
+      }
+    }
+  }
+
+  // Date header
+  if (this.sendDate == true && sentDateHeader == false) {
+    messageHeader += 'Date: ' + utcDate() + CRLF;
+  }
+
+  // keep-alive logic
+  if (sentConnectionHeader === false) {
+    var shouldSendKeepAlive = this.shouldKeepAlive &&
+        (sentContentLengthHeader ||
+         this.useChunkedEncodingByDefault ||
+         this.agent);
+    if (shouldSendKeepAlive) {
+      mes

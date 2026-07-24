@@ -1,0 +1,5 @@
+to spiral :size
+  if :size > 100 [stop]
+  forward :size right 91
+  spiral :size + 2
+end

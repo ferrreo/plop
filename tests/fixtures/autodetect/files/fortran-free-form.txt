@@ -1,0 +1,7 @@
+module metrics
+contains
+  real function average(values)
+    real :: values(:)
+    average = sum(values) / size(values)
+  end function
+end module

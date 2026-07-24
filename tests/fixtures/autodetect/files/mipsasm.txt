@@ -1,0 +1,6 @@
+.data
+message: .asciiz "ready"
+.text
+main:
+    li $v0, 4
+    syscall

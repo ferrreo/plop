@@ -1,0 +1,4 @@
+dashboard:
+  set $visits (add $visits 1)
+  notify "Welcome back"
+  return

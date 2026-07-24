@@ -1,0 +1,1 @@
+Active Customers := CALCULATE(DISTINCTCOUNT(Sales[CustomerId]), Sales[Status] = "Active")

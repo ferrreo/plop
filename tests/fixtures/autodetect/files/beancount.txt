@@ -1,0 +1,4 @@
+2026-01-01 open Income:Salary USD
+2026-01-31 * "Employer" "Payroll"
+  Assets:Bank:Checking  2500 USD
+  Income:Salary

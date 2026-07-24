@@ -1,0 +1,1 @@
+tests/fixtures/autodetect/files/** whitespace=-trailing-space,-space-before-tab,-blank-at-eof

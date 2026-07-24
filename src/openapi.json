@@ -1,0 +1,188 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "plop paste API",
+    "version": "0.1.0",
+    "description": "Create and retrieve locally stored, authenticated-encrypted text and image pastes."
+  },
+  "paths": {
+    "/api/pastes": {
+      "post": {
+        "operationId": "createPaste",
+        "summary": "Create an encrypted paste",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePaste" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Paste created",
+            "headers": {
+              "Server-Timing": { "$ref": "#/components/headers/Server-Timing" },
+              "X-Processing-Time-Us": { "$ref": "#/components/headers/X-Processing-Time-Us" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CreateResult" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/JsonError" },
+          "413": { "description": "Encoded or decoded paste exceeds configured limit" },
+          "500": { "$ref": "#/components/responses/JsonError" }
+        }
+      }
+    },
+    "/api/pastes/{id}": {
+      "get": {
+        "operationId": "getPaste",
+        "summary": "Retrieve paste metadata and bounded content preview",
+        "parameters": [
+          { "$ref": "#/components/parameters/PasteId" },
+          { "$ref": "#/components/parameters/PastePassword" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paste preview and measured processing stats",
+            "headers": {
+              "Server-Timing": { "$ref": "#/components/headers/Server-Timing" },
+              "X-Processing-Time-Us": { "$ref": "#/components/headers/X-Processing-Time-Us" }
+            },
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PasteResult" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/JsonError" },
+          "404": { "$ref": "#/components/responses/JsonError" },
+          "410": { "$ref": "#/components/responses/JsonError" },
+          "500": { "$ref": "#/components/responses/JsonError" }
+        }
+      }
+    },
+    "/p/{id}/raw": {
+      "get": {
+        "operationId": "getRawPaste",
+        "summary": "Retrieve full raw paste",
+        "parameters": [
+          { "$ref": "#/components/parameters/PasteId" },
+          { "$ref": "#/components/parameters/PastePassword" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Full text or image bytes",
+            "headers": {
+              "Server-Timing": { "$ref": "#/components/headers/Server-Timing" },
+              "X-Processing-Time-Us": { "$ref": "#/components/headers/X-Processing-Time-Us" },
+              "X-Paste-Bytes": { "$ref": "#/components/headers/X-Paste-Bytes" }
+            },
+            "content": {
+              "text/plain": { "schema": { "type": "string" } },
+              "image/png": { "schema": { "type": "string", "format": "binary" } },
+              "image/jpeg": { "schema": { "type": "string", "format": "binary" } },
+              "image/gif": { "schema": { "type": "string", "format": "binary" } },
+              "image/webp": { "schema": { "type": "string", "format": "binary" } }
+            }
+          },
+          "401": { "description": "Password required or wrong" },
+          "404": { "description": "Paste not found" },
+          "410": { "description": "Paste expired" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreatePaste": {
+        "type": "object",
+        "required": ["content"],
+        "additionalProperties": false,
+        "properties": {
+          "content": { "type": "string", "description": "UTF-8 text, or standard base64 when kind is image" },
+          "language": { "type": "string", "default": "auto" },
+          "password": { "type": "string", "maxLength": 256 },
+          "ttl_seconds": { "type": "integer", "minimum": 1, "maximum": 31536000, "default": 604800 },
+          "kind": { "type": "string", "enum": ["text", "image"], "default": "text" },
+          "mime": {
+            "type": "string",
+            "enum": ["text/plain; charset=utf-8", "image/png", "image/jpeg", "image/gif", "image/webp"],
+            "default": "text/plain; charset=utf-8"
+          }
+        }
+      },
+      "CreateResult": {
+        "type": "object",
+        "required": ["id", "url", "expires_in", "size_bytes", "kind", "processing_us"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z]+-[a-z]+-[a-z]+$", "example": "otter-vole-tiger" },
+          "url": { "type": "string", "example": "/p/otter-vole-tiger" },
+          "expires_in": { "type": "integer" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "kind": { "type": "string", "enum": ["text", "image"] },
+          "processing_us": { "type": "integer", "minimum": 0 }
+        }
+      },
+      "PasteResult": {
+        "type": "object",
+        "required": ["id", "kind", "language", "mime", "created_at", "expires_at", "content", "content_encoding", "truncated", "raw", "size_bytes", "processing_us"],
+        "properties": {
+          "id": { "type": "string", "example": "otter-vole-tiger" },
+          "kind": { "type": "string", "enum": ["text", "image"] },
+          "language": { "type": "string" },
+          "mime": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": "string", "format": "date-time" },
+          "content": { "type": "string", "description": "Bounded UTF-8 or base64 preview" },
+          "content_encoding": { "type": "string", "enum": ["utf-8", "base64"] },
+          "truncated": { "type": "boolean" },
+          "raw": { "type": "string" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "processing_us": { "type": "integer", "minimum": 0 }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error_message", "processing_us"],
+        "properties": {
+          "error_message": { "type": "string" },
+          "processing_us": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "parameters": {
+      "PasteId": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "pattern": "^[a-z]+-[a-z]+-[a-z]+$" }
+      },
+      "PastePassword": {
+        "name": "X-Paste-Password",
+        "in": "header",
+        "schema": { "type": "string", "maxLength": 256 }
+      }
+    },
+    "headers": {
+      "Server-Timing": { "description": "Application handler duration in milliseconds", "schema": { "type": "string", "example": "app;dur=1.204" } },
+      "X-Processing-Time-Us": { "description": "Application handler duration in microseconds", "schema": { "type": "integer" } },
+      "X-Paste-Bytes": { "description": "Full raw paste size", "schema": { "type": "integer" } }
+    },
+    "responses": {
+      "JsonError": {
+        "description": "JSON error with measured processing stats",
+        "headers": {
+          "Server-Timing": { "$ref": "#/components/headers/Server-Timing" },
+          "X-Processing-Time-Us": { "$ref": "#/components/headers/X-Processing-Time-Us" }
+        },
+        "content": {
+          "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+protocol static routes_v4 { ipv4; route 192.0.2.0/24 blackhole; }

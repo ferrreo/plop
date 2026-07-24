@@ -1,0 +1,30 @@
+.{
+    .name = .plop,
+    .version = "0.1.0",
+    .fingerprint = 0xb9d64b908a6d92da,
+    .minimum_zig_version = "0.16.0",
+    .dependencies = .{
+        .zhl = .{
+            .url = "git+https://github.com/ferrreo/zhl#65b1e21802cd304ede9f8662b4e3fe1f4c624cf6",
+            .hash = "zhl-1.0.2-6W1vbsKoTgFXIGtplqxcnBsBlOn1fpmlrHY45B3L-QLt",
+        },
+        .sigbench = .{
+            .url = "git+https://github.com/ferrreo/sigbench#3d5fe778bace8c283d098d2b7290e634f4bba737",
+            .hash = "sigbench-0.0.5-nAqBoOaRBQD-9MxV5v2pdn7wQwsmvZN8ggUVnC56b9Qh",
+        },
+        .ploof = .{
+            .url = "git+https://github.com/ferrreo/ploof#dfe29652eeff7cf9f3969a558b8ca52d5399fc94",
+            .hash = "ploof-0.1.0-Eoss8XUShgCbQNy7gZArm_9NdXobc1ofEcspFNu320vv",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "tests",
+        "tools",
+        "assets",
+        "README.md",
+        "LICENSE",
+    },
+}

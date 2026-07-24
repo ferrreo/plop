@@ -1,0 +1,5 @@
+.thumb
+.global reset_handler
+reset_handler:
+    ldr r0, =stack_top
+    bx r0

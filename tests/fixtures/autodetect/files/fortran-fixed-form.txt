@@ -1,0 +1,4 @@
+      SUBROUTINE SCALE(A,N)
+      REAL A(N)
+      RETURN
+      END

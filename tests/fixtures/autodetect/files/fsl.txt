@@ -1,0 +1,2 @@
+RES(Tex2D(float4), sourceTexture, UPDATE_FREQ_NONE, t0);
+PS_MAIN float4 main(FSInput input) : SV_Target { return Sample(sourceTexture, input.uv); }

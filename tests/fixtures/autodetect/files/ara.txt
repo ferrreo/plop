@@ -1,0 +1,2 @@
+namespace App\Http;
+final class Health { public fn check(): bool { return true; } }

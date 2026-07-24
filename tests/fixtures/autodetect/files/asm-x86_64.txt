@@ -1,0 +1,6 @@
+.text
+.globl zero_buffer
+zero_buffer:
+    xor %rax, %rax
+    mov %rax, (%rdi)
+    ret

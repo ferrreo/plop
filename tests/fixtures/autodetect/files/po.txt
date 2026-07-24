@@ -1,0 +1,3 @@
+msgctxt "button"
+msgid "Save"
+msgstr "Speichern"

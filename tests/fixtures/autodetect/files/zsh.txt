@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+autoload -Uz compinit && compinit
+typeset -A services
+services[paste]=8080

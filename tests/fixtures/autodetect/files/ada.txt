@@ -1,0 +1,2 @@
+with Ada.Containers.Vectors;
+procedure Queue_Work is begin null; end Queue_Work;

@@ -1,0 +1,3 @@
+namespace relay
+type Ttl { seconds: integer -> required }
+class Request :: Message { ttl: Ttl }

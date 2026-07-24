@@ -1,0 +1,1 @@
+export const feed = html`<article data-id="${item.id}">${item.title}</article>`;

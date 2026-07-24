@@ -1,0 +1,2 @@
+typedef Paste = { final id:String; final expiresAt:Date; }
+class Store { public function get(id:String):Null<Paste> return null; }

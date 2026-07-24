@@ -1,0 +1,5 @@
+{
+  service: paste
+  ttlDays: 7
+  themes: [dark, light]
+}

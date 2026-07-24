@@ -1,0 +1,3 @@
+/// Primary action color.
+/// @type Color
+$action-color: #2563eb !default;

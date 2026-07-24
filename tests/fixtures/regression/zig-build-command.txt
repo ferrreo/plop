@@ -1,0 +1,9 @@
+zig build \
+  -Doptimize=ReleaseFast \
+  -Dtarget=x86_64-linux-gnu \
+  -Dcpu=x86_64_v3 \
+  -Dbrand-name="PikaOS Paste" \
+  -Dpage-title="PikaOS Paste" \
+  -Dsite-url="https://paste.pika-os.com" \
+  -Dlogo-file=assets/pika-logo.svg \
+  -Dfavicon-file=assets/pika-logo.svg

@@ -1,0 +1,3 @@
+machine: Worker;
+Idle 'job' -> Running;
+Running 'done' -> Idle;

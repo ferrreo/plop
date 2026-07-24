@@ -1,0 +1,2 @@
+QWidget#sidebar { background: #111827; }
+QLabel[status="error"] { color: #ef4444; }

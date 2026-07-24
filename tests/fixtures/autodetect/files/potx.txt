@@ -1,0 +1,1 @@
+<?xml version="1.0"?><localization><trans-unit id="cancel"><source>Cancel</source><target/></trans-unit></localization>

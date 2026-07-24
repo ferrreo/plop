@@ -1,0 +1,2 @@
+protocol device {}
+protocol kernel { ipv4 { import all; export all; }; learn; }

@@ -1,0 +1,2 @@
+2026-07-24 18:21:04 ERROR worker=2 message="store unavailable"
+2026-07-24 18:21:05 INFO worker=2 message="recovered"
