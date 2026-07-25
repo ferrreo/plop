@@ -160,6 +160,18 @@ const PasswordPage = page(
     32 * 1024,
 );
 
+const paste_script =
+    "<script>" ++
+    "(()=>{const b=document.querySelector('#copy-link');if(!b)return;" ++
+    "b.addEventListener('click',async()=>{" ++
+    "try{await navigator.clipboard.writeText(location.href)}" ++
+    "catch{const t=document.createElement('textarea');t.value=location.href;t.setAttribute('readonly','');" ++
+    "t.style.cssText='position:fixed;left:-9999px';document.body.appendChild(t);t.select();" ++
+    "try{document.execCommand('copy')}finally{t.remove()}}" ++
+    "b.dataset.copied='';b.setAttribute('aria-label','Link copied');" ++
+    "clearTimeout(b._t);b._t=setTimeout(()=>{delete b.dataset.copied;b.setAttribute('aria-label','Copy paste link')},1600)" ++
+    "})})()</script>";
+
 const PastePage = page(
     "paste",
     struct {
@@ -178,8 +190,14 @@ const PastePage = page(
         processing_time: []const u8,
     },
     paste_shell_start ++
-        "<article class=\"paste panel\"><header class=\"paste-header\"><div><p class=\"eyebrow\">Paste</p>" ++
-        "<h1>{{view.id}}</h1></div><nav class=\"paste-actions\" aria-label=\"Paste actions\">" ++
+        "<article class=\"paste panel\"><header class=\"paste-header\"><div><p class=\"eyebrow\">Copy link</p>" ++
+        "<h1><button type=\"button\" class=\"paste-title\" id=\"copy-link\" aria-label=\"Copy paste link\" title=\"Copy page URL\">" ++
+        "<span class=\"paste-title-text\">{{view.id}}</span>" ++
+        "<svg class=\"paste-title-icon paste-title-copy\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" ++
+        "<rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\"></rect><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"></path></svg>" ++
+        "<svg class=\"paste-title-icon paste-title-done\" aria-hidden=\"true\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" ++
+        "<path d=\"M20 6 9 17l-5-5\"></path></svg></button></h1></div>" ++
+        "<nav class=\"paste-actions\" aria-label=\"Paste actions\">" ++
         "{{#if view.show_raw}}<a href=\"{{view.raw_url}}\">View raw</a>{{/if}}<a class=\"primary-link\" href=\"/\">New paste</a></nav></header>" ++
         "<dl class=\"paste-facts\"><div><dt>Language</dt><dd>{{view.language}}</dd></div>" ++
         "<div><dt>Expires</dt><dd>{{view.expires_at}}</dd></div><div><dt>Size</dt><dd>{{view.size_label}}</dd></div></dl>" ++
@@ -188,7 +206,8 @@ const PastePage = page(
         "{{#if view.truncated}}<p class=\"notice\">Preview truncated. Use raw endpoint for full paste.</p>{{/if}}" ++
         "</article><footer class=\"page-stats\"><span><b>SSR</b> {{view.processing_time}}</span>" ++
         "<span><b>Render</b> {{#if view.image}}image preview{{else}}{{#if view.highlight_cached}}zhl cache hit{{else}}zhl fresh{{/if}}{{/if}}</span>" ++
-        "<span><b>Storage</b> XChaCha20-Poly1305</span></footer>" ++ shell_end,
+        "<span><b>Storage</b> XChaCha20-Poly1305</span></footer>" ++
+        paste_script ++ shell_end,
     response_bytes,
 );
 
@@ -994,6 +1013,13 @@ test "composer accepts clipboard images through the existing file input" {
     try std.testing.expect(std.mem.indexOf(u8, home_script, "URL.createObjectURL(file)") != null);
 }
 
+test "paste title copies the page URL" {
+    try std.testing.expect(std.mem.indexOf(u8, paste_script, "navigator.clipboard.writeText(location.href)") != null);
+    try std.testing.expect(std.mem.indexOf(u8, paste_script, "dataset.copied") != null);
+    try std.testing.expect(std.mem.indexOf(u8, paste_script, "querySelector('#copy-link')") != null);
+    try std.testing.expect(std.mem.indexOf(u8, paste_script, "aria-label','Link copied'") != null);
+}
+
 test "language menu includes every zhl grammar after preferred choices" {
     try std.testing.expectEqual(full_grammars.languages.len + 2, std.mem.count(u8, language_options, "<option"));
     try std.testing.expect(std.mem.startsWith(u8, language_options, "<option value=\"auto\" selected>Auto detect</option>"));
@@ -1126,6 +1152,9 @@ test "Ploof routes create and retrieve encrypted pastes" {
     try std.testing.expect(std.mem.indexOf(u8, shown.body, "zhl-") != null);
     try std.testing.expect(std.mem.indexOf(u8, shown.body, "zhl fresh") != null);
     try std.testing.expect(std.mem.indexOf(u8, shown.body, "property=\"og:title\"") != null);
+    try std.testing.expect(std.mem.indexOf(u8, shown.body, "id=\"copy-link\"") != null);
+    try std.testing.expect(std.mem.indexOf(u8, shown.body, "Copy link") != null);
+    try std.testing.expect(std.mem.indexOf(u8, shown.body, "navigator.clipboard.writeText(location.href)") != null);
     var expected_embed_url_buffer: [options.site_url.len + 80]u8 = undefined;
     const expected_embed_url = try std.fmt.bufPrint(&expected_embed_url_buffer, "{s}{s}", .{ options.site_url, page_path });
     try std.testing.expect(std.mem.indexOf(u8, shown.body, expected_embed_url) != null);

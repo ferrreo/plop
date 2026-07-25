@@ -47,7 +47,12 @@ const common =
     \\.password{display:grid;gap:var(--space-3);margin-top:var(--space-5)}
     \\.notice{margin:0;padding:var(--space-3) var(--space-5);border-top:1px solid var(--line);color:var(--muted);font-size:var(--text-sm)}.error{color:var(--danger)}
     \\.paste-header{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-5);padding:var(--space-5)}
-    \\.paste-header h1{font:700 clamp(1.55rem,4vw,2.45rem)/1.1 var(--font-code);overflow-wrap:anywhere}
+    \\.paste-header h1{min-width:0;margin:0;font:700 clamp(1.55rem,4vw,2.45rem)/1.1 var(--font-code);overflow-wrap:anywhere}
+    \\.paste-title{display:inline-flex;align-items:center;gap:.35em;max-width:100%;width:auto;min-height:0;margin:0;padding:.1em .15em .1em 0;border:0;border-radius:var(--radius-control);background:transparent;color:var(--ink-strong);font:inherit;letter-spacing:inherit;line-height:inherit;text-align:left;white-space:normal;cursor:pointer;transition:color var(--duration-fast) var(--ease-out)}
+    \\.paste-title-text{min-width:0;overflow-wrap:anywhere}
+    \\.paste-title-icon{flex:0 0 auto;width:.55em;height:.55em;color:var(--muted);transition:opacity var(--duration-fast) var(--ease-out),color var(--duration-fast) var(--ease-out),transform var(--duration-fast) var(--ease-out)}
+    \\.paste-title-done{display:none;color:var(--accent)}
+    \\.paste-title[data-copied] .paste-title-copy{display:none}.paste-title[data-copied] .paste-title-done{display:block}.paste-title[data-copied]{color:var(--accent)}
     \\.paste-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);min-width:0}.paste-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;border:1px solid var(--line-strong);border-radius:var(--radius-control);padding:var(--space-2) var(--space-3);font-size:var(--text-sm);font-weight:700;text-decoration:none;white-space:nowrap}
     \\.paste-actions .primary-link{border-color:var(--action);background:var(--action);color:var(--action-ink)}
     \\.paste-facts{display:grid;margin:0;border-block:1px solid var(--line);background:var(--surface-raised)}
@@ -67,7 +72,7 @@ const common =
     \\.zhl-builtin{color:var(--syntax-builtin)}.zhl-function{color:var(--syntax-function)}.zhl-type-name{color:var(--syntax-type)}
     \\.zhl-field,.zhl-parameter{color:var(--syntax-field)}.zhl-label{color:var(--syntax-label)}
     \\.zhl-invalid{color:var(--syntax-invalid);text-decoration:underline wavy currentColor}
-    \\@media(hover:hover){a:hover{color:var(--accent-hover)}button:hover{opacity:.86}.paste-actions a:hover{border-color:var(--accent);color:var(--ink-strong)}.paste-actions .primary-link:hover{color:var(--action-ink);opacity:.86}}
+    \\@media(hover:hover){a:hover{color:var(--accent-hover)}button:hover{opacity:.86}.paste-title:hover{opacity:1;color:var(--accent)}.paste-title-icon{opacity:0}.paste-title:hover .paste-title-icon,.paste-title:focus-visible .paste-title-icon,.paste-title[data-copied] .paste-title-icon{opacity:1;color:var(--accent)}.paste-title:hover .paste-title-icon{transform:translateY(-.04em)}.paste-actions a:hover{border-color:var(--accent);color:var(--ink-strong)}.paste-actions .primary-link:hover{color:var(--action-ink);opacity:.86}}
     \\@media(min-width:40rem){.shell{padding-top:var(--space-6)}.options{grid-template-columns:repeat(2,minmax(0,1fr))}.options button{grid-column:1/-1}.password{grid-template-columns:1fr auto}.password button{width:auto}.paste-facts{grid-template-columns:repeat(3,1fr)}.paste-facts div{border-right:1px solid var(--line);border-bottom:0}.paste-facts div:last-child{border-right:0}}
     \\@media(min-width:56rem){.options{grid-template-columns:minmax(11rem,1.3fr) minmax(7.5rem,.7fr) minmax(7.5rem,.7fr) minmax(11rem,1fr) auto}.options button{grid-column:auto;width:auto}.paste-header{padding:var(--space-6) var(--space-5)}}
     \\@media(max-width:39.99rem){.shell{width:calc(100% - 1rem)}.site-header{margin-bottom:var(--space-6);padding-inline:.5rem}.panel-header,.field-heading,.paste-header{align-items:flex-start}.paste-header{flex-direction:column}.paste-actions{width:100%}.paste-actions a{flex:1}.page-stats{padding-inline:.5rem}.unlock{margin-top:4vh;padding:var(--space-5)}}
@@ -84,6 +89,8 @@ test "selected build theme and icon include responsive light-dark states" {
     try std.testing.expect(std.mem.indexOf(u8, css, "border-radius:0;outline:0") != null);
     try std.testing.expect(std.mem.indexOf(u8, css, ".control small{color:var(--muted);font-size:inherit;font-weight:400}") != null);
     try std.testing.expect(std.mem.indexOf(u8, css, ".page-stats b{color:var(--ink);font-weight:700}") != null);
+    try std.testing.expect(std.mem.indexOf(u8, css, ".paste-title{display:inline-flex") != null);
+    try std.testing.expect(std.mem.indexOf(u8, css, ".paste-title[data-copied]") != null);
     try std.testing.expect(std.mem.indexOf(u8, css, "select{appearance:none;padding-right:var(--space-6)}") != null);
     try std.testing.expect(std.mem.indexOf(u8, css, "translateX") == null);
     try std.testing.expect(std.mem.indexOf(u8, css, "prefers-color-scheme") != null);
