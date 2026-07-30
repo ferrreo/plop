@@ -5,8 +5,8 @@
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
         .zhl = .{
-            .url = "git+https://github.com/ferrreo/zhl#a54a4579334f809659ef8c2537ea0600c3be6142",
-            .hash = "zhl-1.0.2-6W1vbg_mTgFDaRcX7ibs5pFJsaks0ghQ88TrU0p4HznP",
+            .url = "git+https://github.com/ferrreo/zhl#a5fb83806f428f16034836f5259c8cc137999155",
+            .hash = "zhl-1.0.2-6W1vbqwaTwHxPkWaMNVR08t_pCMguFIDpQuZuD1ztnoH",
         },
         .sigbench = .{
             .url = "git+https://github.com/ferrreo/sigbench#3d5fe778bace8c283d098d2b7290e634f4bba737",
