@@ -13,8 +13,8 @@
             .hash = "sigbench-0.0.5-nAqBoOaRBQD-9MxV5v2pdn7wQwsmvZN8ggUVnC56b9Qh",
         },
         .ploof = .{
-            .url = "git+https://github.com/ferrreo/ploof#dfe29652eeff7cf9f3969a558b8ca52d5399fc94",
-            .hash = "ploof-0.1.0-Eoss8XUShgCbQNy7gZArm_9NdXobc1ofEcspFNu320vv",
+            .url = "git+https://github.com/ferrreo/ploof?ref=v0.1.1#03fe2d6b0d6eb2a219b2aecb1ec5585220eb6e08",
+            .hash = "ploof-0.1.1-Eoss8dXvhgBBbNxPl3pTh03ZNHDTtyv_ZWDkHFpw6MeJ",
         },
     },
     .paths = .{
