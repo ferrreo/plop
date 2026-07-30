@@ -241,6 +241,7 @@ test "auto-detects every supported grammar" {
         .{ .source = "export const App = () => <div className=\"paste\">hi</div>;", .expected = "jsx" },
         .{ .source = "{\"animal\":\"otter\"}", .expected = "json" },
         .{ .source = "fun main() { val animal = \"otter\"; println(animal) }", .expected = "kotlin" },
+        .{ .source = "2026-07-30T19:04:11Z INFO request_id=otter status=201 duration_ms=0.42", .expected = "log" },
         .{ .source = "# Paste API\n\nUse [the endpoint](/api/pastes).", .expected = "markdown" },
         .{ .source = "<?php\nfunction paste() { echo 'hi'; }", .expected = "php" },
         .{ .source = "def plop():\n    return 1", .expected = "python" },
@@ -355,6 +356,14 @@ test "zhl rendering escapes HTML and preserves multiline state" {
     const crlf = try render("const a = 1;\r\nconst b = 2;", "zig", &output);
     try std.testing.expectEqual(@as(usize, 1), std.mem.count(u8, crlf, "\n"));
     try std.testing.expect(std.mem.indexOfScalar(u8, crlf, '\r') == null);
+}
+
+test "native log rendering escapes HTML" {
+    var output: [4096]u8 = undefined;
+    const rendered = try render("Jul 30 19:04:11 host systemd[4042]: Failed with <bad>", "log", &output);
+    try std.testing.expect(std.mem.indexOf(u8, rendered, "zhl-keyword") != null);
+    try std.testing.expect(std.mem.indexOf(u8, rendered, "zhl-string") != null);
+    try std.testing.expect(std.mem.indexOf(u8, rendered, "&lt;bad&gt;") != null);
 }
 
 test "highlight cache hits and evicts least recently used markup" {

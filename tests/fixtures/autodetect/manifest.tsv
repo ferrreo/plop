@@ -11,6 +11,7 @@ javascript	javascript	files/javascript.txt	github-linguist/linguist@8afc9a0110df
 jsx	jsx	files/jsx.txt	plop project-authored	BSD-3-Clause
 json	json	files/json.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/JSON/filenames/Pipfile.lock	MIT
 kotlin	kotlin	files/kotlin.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Kotlin/Foo.kt	MIT
+log	log	files/log.txt	plop project-authored	BSD-3-Clause
 markdown	markdown	files/markdown.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Markdown/csharp6.workbook	MIT
 php	php	files/php.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/PHP/file_display.inc	MIT
 python	python	files/python.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Python/flask-view.py	MIT
@@ -113,7 +114,6 @@ kts	kts	files/kts.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd293
 kusto	kusto	files/kusto.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Kusto/kusto-example-queries.csl	MIT
 lisp	common-lisp	files/lisp.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Common Lisp/array.l	MIT
 llvm	llvm	files/llvm.txt	plop project-authored	BSD-3-Clause
-log	log	files/log.txt	plop project-authored	BSD-3-Clause
 logo	logo	files/logo.txt	plop project-authored	BSD-3-Clause
 lua	lua	files/lua.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Lua/vidya-file-modder.pd_lua	MIT
 luau	luau	files/luau.txt	github-linguist/linguist@8afc9a0110df1b62c723d51bea82bd29345f92d3:samples/Luau/Tree.luau	MIT

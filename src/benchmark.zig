@@ -23,6 +23,7 @@ const typescript_source =
 ;
 const nushell_source = @embedFile("autodetect_nushell_fixture");
 const large_c_source = c_source ** 256;
+const log_source = "Jul 30 19:04:11 freya systemd[4042]: Failed with result 'exit-code'.\n" ** 128;
 const store_id = "bench-store-paste";
 const store_file = store_id ++ ".plop";
 const sweep_entries = 64;
@@ -55,6 +56,16 @@ fn highlightLargeC(b: *sigbench.Bencher) !void {
     const started = sigbench.nowNs();
     for (0..b.iterations) |_| {
         const rendered = try highlight.render(large_c_source, "c", &output);
+        std.mem.doNotOptimizeAway(rendered.ptr);
+    }
+    b.finishCustom(sigbench.nowNs() - started);
+}
+
+fn highlightLog(b: *sigbench.Bencher) !void {
+    var output: [highlight.rendered_bytes_max]u8 = undefined;
+    const started = sigbench.nowNs();
+    for (0..b.iterations) |_| {
+        const rendered = try highlight.render(log_source, "log", &output);
         std.mem.doNotOptimizeAway(rendered.ptr);
     }
     b.finishCustom(sigbench.nowNs() - started);
@@ -154,6 +165,7 @@ pub const benchmarks = sigbench.group("plop", .{
     sigbench.benchWithThroughput("zhl-zig", "server-side Zig highlight", .{ .bytes = source.len }, highlightZig),
     sigbench.benchWithThroughput("zhl-zig-large", "server-side Zig highlight, large", .{ .bytes = large_source.len }, highlightLargeZig),
     sigbench.benchWithThroughput("zhl-c-large", "server-side C highlight, large", .{ .bytes = large_c_source.len }, highlightLargeC),
+    sigbench.benchWithThroughput("zhl-log", "server-side log highlight", .{ .bytes = log_source.len }, highlightLog),
     sigbench.benchWithThroughput("highlight-cache-hit", "highlight cache hit", .{ .bytes = source.len }, cachedHighlight),
     sigbench.benchWithThroughput("language-autodetect-structural", "language auto-detection, structural", .{ .bytes = c_source.len }, detectStructuralLanguage),
     sigbench.benchWithThroughput("language-autodetect-typescript", "language auto-detection, TypeScript regression", .{ .bytes = typescript_source.len }, detectTypeScript),
