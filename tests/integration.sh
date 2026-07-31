@@ -137,7 +137,7 @@ ttl_id=$(jq -r '.id' "$work/ttl.json")
 sleep 1.1
 [[ $(curl -sS -o /dev/null -w '%{http_code}' "$base/api/pastes/$ttl_id") == 410 ]]
 
-head -c "$max_bytes" /dev/zero | tr '\0' x >"$work/large.txt"
+head -c "$max_bytes" /dev/zero | tr '\0' '\n' >"$work/large.txt"
 jq -Rs '{content:.,language:"text",ttl_seconds:60}' <"$work/large.txt" >"$work/large-request.json"
 curl -fsS "$base/api/pastes" -H 'content-type: application/json' --data-binary @"$work/large-request.json" -o "$work/large.json"
 large_id=$(jq -r '.id' "$work/large.json")

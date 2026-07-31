@@ -237,7 +237,7 @@ const ApiCreateEndpoint = ploof.Endpoint(.{
     .body = ploof.Json.typed(ApiCreate, .{
         .encoded_wire_bytes_max = max_paste_bytes * 2 + 4096,
         .decoded_bytes_max = max_paste_bytes * 2 + 4096,
-        .parse_memory_bytes_max = 64 * 1024,
+        .parse_memory_bytes_max = max_paste_bytes + 4096,
         .unknown_fields = .reject,
     }),
     .response_json_bytes_max = 512,
